@@ -26,7 +26,7 @@
 #include "ui_callback.h"
 #include <SDL/SDL.h>
 
-#include "../SDL_extras.h"
+#include "SDL_extras.h"
 
 struct _UI_Button {
 	char *label;

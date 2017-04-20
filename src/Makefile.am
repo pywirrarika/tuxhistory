@@ -53,14 +53,14 @@ tuxhistory_SOURCES = tuxhistory.c \
 	scandir.c	\
 	pixels.c	\
 	tuxrts.c 	\
-	t4kui/ui_button.c \
-	t4kui/ui_events.c \
-	t4kui/ui_proxywidget.c \
-	t4kui/ui_window.c \
-	t4kui/ui_colors.c \
-	t4kui/ui_layouts.c \
-	t4kui/ui_system.c \
-	t4kui/util.c
+	ui_button.c \
+	ui_events.c \
+	ui_proxywidget.c \
+	ui_window.c \
+	ui_colors.c \
+	ui_layouts.c \
+	ui_system.c \
+	util.c
 
 # HACK "TuxHistory" is the Windows program, whereas "tuxhistory" is the Unix program
 TuxHistory_SOURCES  = $(tuxhistory_SOURCES) tuxmathrc.rc
@@ -95,7 +95,16 @@ EXTRA_DIST = 	credits.h 	\
 	pixels.h		\
 	compiler.h		\
 	transtruct.h	\
-	tuxrts.h
+	tuxrts.h		\
+	ui_window.h		\
+	ui_system.h		\
+	ui_proxywidget.h\
+	ui_layouts.h	\
+	ui_events.h		\
+	ui_colors.h		\
+	ui_callback.h	\
+	ui_button.h		\
+	util.h
         
 
 
