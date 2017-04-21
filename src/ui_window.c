@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, 
  * Boston, MA  02110-1301  USA
  */
-
+#include <stdio.h>
 #include "ui_window.h"
 #include "ui_colors.h"
 #include "ui_layouts.h"
@@ -41,7 +41,7 @@ struct _UI_Window *ui_CreateWindow(int x, int y, int width, int height) {
 	window->height = height;
 	window->canvas = SDL_CreateRGBSurface(SDL_SRCALPHA, width, height, 32, 0, 0, 0, 0);
 	window->widgets = list_Create();
-	SDL_FillRect(window->canvas, NULL, C_WND);
+	SDL_FillRect(window->canvas, NULL, C_BLACK);
 	return window;
 }
 
@@ -75,6 +75,9 @@ int ui_WindowContains(struct _UI_Window *window, int x, int y) {
 
 void ui_DrawWindow(struct _UI_Window *window, SDL_Surface *screen) {
 	//redraw widgets
+    SDL_Rect dest, title_rect;
+
+
 	Node *node = list_GetFirst(window->widgets);
 	while(node!=NULL) {
 		ui_PaintWidget((UI_ProxyWidget *)list_GetNodeValue(node), window->canvas);
@@ -85,12 +88,24 @@ void ui_DrawWindow(struct _UI_Window *window, SDL_Surface *screen) {
 	position.x = window->x;
 	position.y = window->y;
 
+
+    // Construct title
+    title_rect.x = 2;
+    title_rect.y = 2;
+    title_rect.w = window->canvas->w-2;
+    title_rect.h = 30;
+	SDL_FillRect(window->canvas, &title_rect, 0x881111);
 	SDL_BlitSurface(window->canvas, NULL, screen, &position);
+    th_ShowMessage("TuxHistory Window", 16, window->x+5, window->y+5);
 }
 
 void ui_AddWidget(struct _UI_Window *window, void *widget, WidgetType type) {
+    printf("NewPoxy!\n");
 	UI_ProxyWidget *proxy = ui_CreateProxyWidget(widget, type);
+    printf("NewPOS!\n");
 	SDL_Rect pos = layout_FGetPos();
+    printf("SetPos!\n");
 	ui_SetWidgetPosition(proxy, pos.x, pos.y);
+    printf("Add to window!\n");
 	list_AddNode(window->widgets, proxy);
 }

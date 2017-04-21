@@ -22,10 +22,24 @@
 
 #include "ui_system.h"
 #include <SDL/SDL_ttf.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <assert.h>
+#include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 
-//#include "SDL_extras.h"
+#include "ui_system.h"
+#include "ui_window.h"
+#include "ui_button.h"
+#include "ui_proxywidget.h"
+#include "ui_colors.h"
+#include "ui_events.h"
+#include "ui_layouts.h"
+#include "ui_callback.h"
 
-/*static TTF_Font *std_font;
+#include "SDL_extras.h"
+/*
+static TTF_Font *std_font;
 
 int ui_InitSystem() {
 	if(TTF_Init()==-1)
@@ -38,8 +52,11 @@ int ui_InitSystem() {
 }
 */
 
-/*
-TTF_Font *ui_GetFont() {
+
+/*TTF_Font *ui_GetFont() {
 	return front
     //return std_font;
-}*/
+}
+*/
+
+

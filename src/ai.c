@@ -436,7 +436,7 @@ th_point ai_alternative_tile(th_point p1, th_point p2)
 }
 // ai_state_update modifies the values of all objects if they change their
 // state.
-
+// TODO: This code is ugly, we need a better way to update objects
 int ai_state_update(list_node *node)
 {
     th_point new_point;

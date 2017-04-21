@@ -99,6 +99,7 @@ int rts_valid_tile(int player, int unit, th_point coords)
     return 1; 
 }
 
+// TODO:We need to save objects in a tree and not in a list.
 th_obj *rts_get_object(int player, th_point coords)
 {
     list_node *obj_node;
@@ -486,7 +487,7 @@ int rts_create(th_obj *obj, int type)
     return 1;
 }
 // For the folowing functions: target can be NULL or point 
-// can be -1,-1, but one must be valid. If all to are valid,
+// can be -1,-1, but one must be valid. If all of them are valid,
 // it will give preference to target.
 
 int rts_attack(th_obj *obj, th_obj *target, th_point point)

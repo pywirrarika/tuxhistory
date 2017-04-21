@@ -43,6 +43,14 @@
 #include "panel.h"
 #include "players.h"
 
+#include "ui_system.h"
+#include "ui_window.h"
+#include "ui_button.h"
+#include "ui_proxywidget.h"
+#include "ui_colors.h"
+#include "ui_events.h"
+#include "ui_layouts.h"
+#include "ui_callback.h"
 
 #define FPS 40 /* 15 frames per second */
 #define MS_PER_FRAME (1000 / FPS)
@@ -119,6 +127,7 @@ static int game_mouse_event(SDL_Event event);
 static int check_exit_conditions(void);
 static int game_over(int);
 static int pause_game(void);
+static int game_exit(void);
 
 //static void get_mouse_pos(int, int);
 /************** Implementation *******************/
@@ -218,6 +227,9 @@ static int game_init(void)
     return 0;
 }
 
+
+// This is the main loop of the game!
+
 int game(void)
 {
     Uint32 last_time, now_time;
@@ -266,6 +278,14 @@ int game(void)
                 now_time = MS_PER_FRAME;
             SDL_Delay(now_time);
         }
+        
+        if (    game_status == GAME_OVER_ESCAPE || 
+                game_status == GAME_OVER_WINDOW_CLOSE)
+        {
+            printf("Exit signal\n");
+            game_exit();
+        }
+
     }
     game_over(game_status);
     return 1;
@@ -737,6 +757,58 @@ static int pause_game(void)
 
   return (pause_quit);
 }
+
+
+// SEGFOULT
+// Bugy code
+static int game_exit(void)
+{
+
+    int exit_done, exit_quit;
+    SDL_Event event;
+    SDL_Rect dest;
+
+    UI_Window *window;
+    UI_Button *button;
+    
+    exit_done = 0;
+    exit_quit = 0;
+    
+    DarkenScreen(1);  // cut all channels by half
+    SDL_UpdateRect(screen, 0, 0, 0, 0);
+
+	uie_Register();
+    printf("Ready to create window\n");
+	window = ui_CreateWindow(screen->w/2-150, screen->h/2-200, 300, 200);
+    printf("...\n");
+	uie_RegisterWindow(window);
+    //printf("Done! Now it is time to register a new botton\n");
+	//button = ui_CreateButton("Exit Application");
+    //printf("Lets add button!\n");
+	//ui_AddWidget(window, button, WT_BUTTON);
+    //printf("Draw window\n");
+	ui_DrawWindow(window, screen);
+
+    printf("Loop\n");
+    do
+    {
+        SDL_Flip(screen);
+        while (SDL_PollEvent(&event))
+        {
+            if (event.type == SDL_KEYDOWN)
+                exit_done = 1;
+            else if (event.type == SDL_QUIT)
+            {
+                user_quit_received = GAME_OVER_WINDOW_CLOSE;
+                exit_quit = 1;
+            }
+        }
+        SDL_Delay(100);
+    }
+    while (!exit_done && !exit_quit);
+    return 1;
+}
+
 
 static int game_over(int game_status)
 {
